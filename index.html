@@ -1,0 +1,314 @@
+
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bharat Sahayata | सरकारी योजना</title>
+<style>
+:root{--g:#12452e;--g2:#20734a;--o:#ff9933;--bg:#f4f7f4;--line:#dce7de}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,"Noto Sans Devanagari",sans-serif;background:var(--bg);color:#1d2c22}
+header{background:var(--g);color:white;padding:16px 5%;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{font-size:23px;font-weight:bold}
+nav{display:flex;gap:14px;flex-wrap:wrap}
+nav a{color:white;text-decoration:none;font-size:14px}
+button,.btn{background:var(--g2);color:white;border:0;padding:11px 15px;border-radius:9px;cursor:pointer;text-decoration:none;display:inline-block}
+input,select,textarea{padding:11px;border:1px solid #cbd9ce;border-radius:9px;width:100%;background:white}
+.hero{background:linear-gradient(120deg,#103b27,#28734b);color:white;padding:45px 6%}
+.hero h1{font-size:clamp(28px,5vw,45px);margin:10px 0}
+.hero p{max-width:650px;line-height:1.7}
+.search{display:flex;gap:8px;max-width:700px;margin-top:20px}
+.search input{flex:1;min-width:0}
+main{max-width:1200px;margin:auto;padding:25px 4%}
+section{margin-bottom:38px;scroll-margin-top:20px}
+h2{color:var(--g)}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.categories{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{background:white;border:1px solid var(--line);border-radius:15px;padding:18px;box-shadow:0 5px 18px #153a2310}
+.card h3{margin:7px 0;color:var(--g)}
+.card p{font-size:14px;line-height:1.6;color:#526257}
+.icon{font-size:28px}
+.filters,.formgrid{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:10px;margin:15px 0}
+.formgrid{grid-template-columns:repeat(4,minmax(0,1fr))}
+.label{display:block;font-size:13px;font-weight:bold;margin:0 0 6px}
+.tag{font-size:12px;background:#e6f5e9;color:#17623a;padding:5px 9px;border-radius:30px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.actions button,.actions a{font-size:13px}
+.secondary{background:white;color:var(--g);border:1px solid var(--line)}
+.list{display:grid;gap:9px}
+.listitem{background:white;border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.small{font-size:12px;color:#69766d}
+.notice{background:#fff3d9;border:1px solid #f0d9a2;border-radius:12px;padding:16px;line-height:1.6}
+footer{background:#0c2e1e;color:white;padding:25px 5%;line-height:1.8}
+footer a{color:white}
+.hidden{display:none}
+#message{position:fixed;bottom:15px;left:50%;transform:translateX(-50%);background:#123b2a;color:white;padding:12px 18px;border-radius:10px;display:none;z-index:20}
+@media(max-width:850px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.categories{grid-template-columns:repeat(2,minmax(0,1fr))}.filters,.formgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:540px){header{padding:13px 4%}nav{gap:10px}.hero{padding:32px 5%}.search{flex-wrap:wrap}.search input{flex-basis:100%}.grid,.categories,.filters,.formgrid{grid-template-columns:1fr}main{padding:20px 4%}.card{padding:15px}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">🇮🇳 Bharat Sahayata</div>
+  <nav>
+    <a href="#categories">विभाग</a>
+    <a href="#schemes">योजना</a>
+    <a href="#finder">पात्रता</a>
+    <a href="#services">सेवा</a>
+    <a href="#saved">माझी यादी</a>
+  </nav>
+  <select id="language" style="width:auto" aria-label="Language">
+    <option value="mr">मराठी</option>
+    <option value="hi">हिंदी</option>
+    <option value="en">English</option>
+  </select>
+</header>
+
+<div class="hero">
+  <span>सरकारी माहिती • पात्रता • अधिकृत लिंक्स</span>
+  <h1>सरकारी योजनांचा<br>तुमचा विश्वासू साथी!</h1>
+  <p>शेतकरी, विद्यार्थी, महिला, नोकरी शोधणारे, उद्योजक आणि सर्व नागरिकांसाठी सरकारी योजनांची माहिती एकाच ठिकाणी.</p>
+  <div class="search">
+    <input id="globalSearch" placeholder="योजना, नोकरी किंवा शिष्यवृत्ती शोधा...">
+    <button onclick="searchGlobal()">शोधा →</button>
+  </div>
+</div>
+
+<main>
+<section id="categories">
+  <h2>📚 सर्व विभाग</h2>
+  <div class="grid categories">
+    <div class="card"><div class="icon">🌾</div><h3>शेतकरी</h3><p>कृषी अनुदान, पीक विमा, सिंचन व पशुपालन.</p><button onclick="choose('farmer')">योजना पाहा</button></div>
+    <div class="card"><div class="icon">🎓</div><h3>विद्यार्थी</h3><p>शिष्यवृत्ती, शिक्षण सहाय्य व NMMS.</p><button onclick="choose('student')">योजना पाहा</button></div>
+    <div class="card"><div class="icon">💼</div><h3>सरकारी नोकरी</h3><p>UPSC, SSC, MPSC व रोजगार सेवा.</p><button onclick="choose('jobs')">योजना पाहा</button></div>
+    <div class="card"><div class="icon">👩</div><h3>महिला व बालकल्याण</h3><p>महिला सक्षमीकरण आणि कुटुंब सहाय्य.</p><button onclick="choose('women')">योजना पाहा</button></div>
+    <div class="card"><div class="icon">🏪</div><h3>व्यवसाय व कर्ज</h3><p>उद्योजकता, कौशल्य आणि कर्ज माहिती.</p><button onclick="choose('business')">योजना पाहा</button></div>
+    <div class="card"><div class="icon">🏠</div><h3>घरकुल</h3><p>ग्रामीण आणि शहरी घरकुल माहिती.</p><button onclick="choose('housing')">योजना पाहा</button></div>
+    <div class="card"><div class="icon">🏥</div><h3>आरोग्य</h3><p>आरोग्य सेवा व योजनांची माहिती.</p><button onclick="choose('health')">योजना पाहा</button></div>
+    <div class="card"><div class="icon">🤝</div><h3>पेन्शन व सामाजिक सहाय्य</h3><p>ज्येष्ठ नागरिक आणि दिव्यांग सहाय्य.</p><button onclick="choose('senior')">योजना पाहा</button></div>
+  </div>
+</section>
+
+<section id="schemes">
+  <h2>🔎 सरकारी योजना शोधा</h2>
+  <div class="filters">
+    <input id="query" placeholder="योजनेचे नाव शोधा...">
+    <select id="category">
+      <option value="all">सर्व विभाग</option>
+      <option value="farmer">शेतकरी</option>
+      <option value="student">विद्यार्थी</option>
+      <option value="jobs">नोकरी</option>
+      <option value="women">महिला</option>
+      <option value="business">व्यवसाय</option>
+      <option value="housing">घरकुल</option>
+      <option value="health">आरोग्य</option>
+      <option value="senior">पेन्शन / सामाजिक सहाय्य</option>
+      <option value="documents">कागदपत्रे</option>
+      <option value="general">सर्वसाधारण</option>
+      <option value="skills">कौशल्य</option>
+    </select>
+    <select id="state">
+      <option value="all">सर्व भारत</option>
+      <option value="Maharashtra">महाराष्ट्र</option>
+      <option value="central">केंद्र सरकार</option>
+    </select>
+    <button onclick="render()">शोधा</button>
+  </div>
+  <div class="grid" id="schemeGrid"></div>
+  <p class="small">योजनेची पात्रता, लाभ आणि अंतिम तारीख अधिकृत पोर्टलवर तपासा.</p>
+</section>
+
+<section id="finder">
+  <h2>🧭 Smart Scheme Finder</h2>
+  <div class="card">
+    <p>तुमची माहिती निवडा. संबंधित विभागातील योजना दिसतील. हा अंतिम पात्रता निर्णय नाही.</p>
+    <div class="formgrid">
+      <div><label class="label">तुमची भूमिका</label>
+        <select id="role">
+          <option value="general">सर्वसाधारण नागरिक</option>
+          <option value="farmer">शेतकरी</option>
+          <option value="student">विद्यार्थी</option>
+          <option value="jobs">नोकरी शोधणारे</option>
+          <option value="women">महिला</option>
+          <option value="business">व्यवसाय</option>
+          <option value="senior">ज्येष्ठ / दिव्यांग</option>
+        </select>
+      </div>
+      <div><label class="label">राज्य</label>
+        <select id="findState"><option value="Maharashtra">महाराष्ट्र</option><option value="all">इतर राज्य / सर्व भारत</option></select>
+      </div>
+      <div><label class="label">वय</label><input id="age" type="number" min="0" max="120" placeholder="वय"></div>
+      <div><label class="label">वार्षिक उत्पन्न (₹)</label><input id="income" type="number" min="0" placeholder="उदा. 200000"></div>
+    </div>
+    <button onclick="findSchemes()">माझ्यासाठी योजना शोधा</button>
+    <div id="finderResults" style="margin-top:15px"></div>
+  </div>
+</section>
+
+<section id="services">
+  <h2>🪪 अधिकृत सरकारी सेवा</h2>
+  <div class="grid">
+    <div class="card"><h3>DigiLocker</h3><p>डिजिटल कागदपत्रे व प्रमाणपत्रे.</p><a class="btn" href="https://www.digilocker.gov.in/" target="_blank" rel="noopener">अधिकृत वेबसाइट ↗</a></div>
+    <div class="card"><h3>आपले सरकार</h3><p>महाराष्ट्रातील विविध नागरिक सेवा.</p><a class="btn" href="https://aaplesarkar.mahaonline.gov.in/" target="_blank" rel="noopener">अधिकृत वेबसाइट ↗</a></div>
+    <div class="card"><h3>UMANG</h3><p>विविध सरकारी डिजिटल सेवा.</p><a class="btn" href="https://web.umang.gov.in/" target="_blank" rel="noopener">अधिकृत वेबसाइट ↗</a></div>
+    <div class="card"><h3>UIDAI / Aadhaar</h3><p>आधारविषयक माहिती.</p><a class="btn" href="https://uidai.gov.in/" target="_blank" rel="noopener">अधिकृत वेबसाइट ↗</a></div>
+    <div class="card"><h3>National Career Service</h3><p>रोजगार आणि करिअर सेवा.</p><a class="btn" href="https://www.ncs.gov.in/" target="_blank" rel="noopener">अधिकृत वेबसाइट ↗</a></div>
+    <div class="card"><h3>myScheme</h3><p>केंद्र व राज्य सरकारी योजना शोधा.</p><a class="btn" href="https://www.myscheme.gov.in/" target="_blank" rel="noopener">अधिकृत वेबसाइट ↗</a></div>
+    <div class="card"><h3>भारत सरकार</h3><p>राष्ट्रीय सरकारी पोर्टल.</p><a class="btn" href="https://www.india.gov.in/" target="_blank" rel="noopener">अधिकृत वेबसाइट ↗</a></div>
+    <div class="card"><h3>MahaDBT</h3><p>महाराष्ट्रातील विद्यार्थी व कृषी योजनांची माहिती.</p><a class="btn" href="https://mahadbt.maharashtra.gov.in/" target="_blank" rel="noopener">अधिकृत वेबसाइट ↗</a></div>
+  </div>
+</section>
+
+<section>
+  <h2>🧑‍🌾 शेतकऱ्यांसाठी महत्त्वाच्या लिंक</h2>
+  <div class="grid">
+    <div class="card"><h3>PM-KISAN</h3><p>पात्र शेतकरी कुटुंबांसाठी आर्थिक सहाय्य योजनेची माहिती.</p><a class="btn" href="https://pmkisan.gov.in/" target="_blank" rel="noopener">PM-KISAN ↗</a></div>
+    <div class="card"><h3>पीक विमा (PMFBY)</h3><p>अधिसूचित पिकांसाठी पीक विमा माहिती.</p><a class="btn" href="https://pmfby.gov.in/" target="_blank" rel="noopener">पीक विमा ↗</a></div>
+    <div class="card"><h3>कृषी यांत्रिकीकरण</h3><p>कृषी उपकरणे आणि यांत्रिकीकरणाबाबत माहिती.</p><a class="btn" href="https://agrimachinery.nic.in/" target="_blank" rel="noopener">कृषी पोर्टल ↗</a></div>
+  </div>
+</section>
+
+<section>
+  <h2>🎓 विद्यार्थी व शिष्यवृत्ती</h2>
+  <div class="grid">
+    <div class="card"><h3>National Scholarship Portal</h3><p>विविध शिष्यवृत्ती योजनांची माहिती.</p><a class="btn" href="https://scholarships.gov.in/" target="_blank" rel="noopener">शिष्यवृत्ती ↗</a></div>
+    <div class="card"><h3>MahaDBT</h3><p>महाराष्ट्रातील उपलब्ध शिष्यवृत्ती आणि फी सहाय्य.</p><a class="btn" href="https://mahadbt.maharashtra.gov.in/" target="_blank" rel="noopener">MahaDBT ↗</a></div>
+    <div class="card"><h3>शिक्षण मंत्रालय</h3><p>शिक्षणविषयक अधिकृत माहिती.</p><a class="btn" href="https://www.education.gov.in/" target="_blank" rel="noopener">अधिकृत वेबसाइट ↗</a></div>
+  </div>
+</section>
+
+<section>
+  <h2>💼 सरकारी नोकऱ्या</h2>
+  <div class="grid">
+    <div class="card"><h3>UPSC</h3><p>केंद्रीय स्पर्धा परीक्षा व भरती.</p><a class="btn" href="https://upsc.gov.in/" target="_blank" rel="noopener">UPSC ↗</a></div>
+    <div class="card"><h3>SSC</h3><p>केंद्रीय कर्मचारी भरती.</p><a class="btn" href="https://ssc.gov.in/" target="_blank" rel="noopener">SSC ↗</a></div>
+    <div class="card"><h3>MPSC</h3><p>महाराष्ट्रातील स्पर्धा परीक्षा.</p><a class="btn" href="https://mpsc.gov.in/" target="_blank" rel="noopener">MPSC ↗</a></div>
+  </div>
+</section>
+
+<section>
+  <h2>🤖 सरकारी मदतनीस</h2>
+  <div class="card">
+    <p>प्रश्न लिहा. हा बेसिक मदतनीस आहे; AI API जोडलेली नाही.</p>
+    <form id="chatForm">
+      <input id="question" maxlength="300" placeholder="उदा. शेतकरी योजना कुठे मिळेल?" required>
+      <button style="margin-top:10px">उत्तर मिळवा</button>
+    </form>
+    <p id="answer" aria-live="polite"></p>
+  </div>
+</section>
+
+<section id="saved">
+  <h2>⭐ माझ्या आवडत्या योजना</h2>
+  <div id="favourites" class="list"><p class="small">योजना कार्डवरील Favourite बटण दाबा.</p></div>
+</section>
+
+<section>
+  <h2>🗂️ Application Tracker</h2>
+  <div class="card">
+    <p>तुमच्या अर्जाची वैयक्तिक नोंद ठेवा. ही सरकारी अर्जाची live स्थिती नाही.</p>
+    <form id="trackerForm">
+      <label class="label">योजनेचे नाव</label>
+      <input id="trackName" required maxlength="100" placeholder="उदा. शिष्यवृत्ती अर्ज">
+      <label class="label" style="margin-top:10px">स्थिती</label>
+      <select id="trackStatus">
+        <option>अर्ज करायचा आहे</option>
+        <option>कागदपत्रे गोळा करत आहे</option>
+        <option>अर्ज केला आहे</option>
+        <option>पुढील तपासणी आवश्यक</option>
+        <option>पूर्ण झाले</option>
+      </select>
+      <button style="margin-top:12px">नोंद जोडा</button>
+    </form>
+    <div id="trackerList" class="list" style="margin-top:15px"></div>
+  </div>
+</section>
+
+<section>
+  <h2>📋 कागदपत्र चेकलिस्ट</h2>
+  <div class="card">
+    <p>योजनेनुसार आवश्यक असलेली कागदपत्रे तपासा.</p>
+    <label><input type="checkbox" style="width:auto"> आधार / मान्य ओळखपत्र</label><br><br>
+    <label><input type="checkbox" style="width:auto"> पत्ता पुरावा</label><br><br>
+    <label><input type="checkbox" style="width:auto"> बँक खाते तपशील</label><br><br>
+    <label><input type="checkbox" style="width:auto"> उत्पन्न प्रमाणपत्र (लागू असल्यास)</label><br><br>
+    <label><input type="checkbox" style="width:auto"> जात / प्रवर्ग प्रमाणपत्र (लागू असल्यास)</label><br><br>
+    <label><input type="checkbox" style="width:auto"> शैक्षणिक गुणपत्रक (लागू असल्यास)</label><br><br>
+    <button onclick="window.print()">प्रिंट / PDF</button>
+  </div>
+</section>
+
+<section>
+  <div class="notice">
+    <strong>⚠️ सुरक्षा सूचना</strong><br>
+    ही स्वतंत्र माहितीपर वेबसाइट आहे; सरकारी संस्था नाही. योजनेची पात्रता, लाभाची रक्कम आणि अर्जाच्या तारखा अधिकृत पोर्टलवर तपासा. OTP, UPI PIN, ATM PIN किंवा पासवर्ड कोणालाही देऊ नका. लाभाची हमी देणाऱ्या अनधिकृत व्यक्तींना पैसे देऊ नका.
+  </div>
+</section>
+</main>
+
+<footer>
+  <h2 style="color:white">🇮🇳 Bharat Sahayata</h2>
+  सरकारी योजना आणि नागरिक सेवांची माहिती सोप्या भाषेत.
+  <p><a href="https://www.myscheme.gov.in/" target="_blank" rel="noopener">myScheme</a> |
+  <a href="https://www.india.gov.in/" target="_blank" rel="noopener">India.gov.in</a> |
+  <a href="https://mahadbt.maharashtra.gov.in/" target="_blank" rel="noopener">MahaDBT</a></p>
+  <small>© <span id="year"></span> Bharat Sahayata • स्वतंत्र माहितीपर प्रकल्प</small>
+</footer>
+<div id="message" role="status"></div>
+
+<script>
+const schemes=[
+{id:"pmkisan",name:"PM-KISAN",cat:"farmer",state:"central",benefit:"पात्र शेतकरी कुटुंबांसाठी नियमानुसार आर्थिक सहाय्य.",eligibility:"जमीन नोंदी, पात्रता आणि अपात्रतेच्या अटी तपासा.",url:"https://pmkisan.gov.in/",tags:"शेतकरी farmer agriculture"},
+{id:"pmfby",name:"प्रधानमंत्री पीक विमा योजना",cat:"farmer",state:"central",benefit:"अधिसूचित पिकांसाठी पीक विम्याची माहिती.",eligibility:"पीक, हंगाम, राज्य आणि अर्ज कालावधी तपासा.",url:"https://pmfby.gov.in/",tags:"पीक विमा crop insurance"},
+{id:"agri",name:"MahaDBT कृषी योजना",cat:"farmer",state:"Maharashtra",benefit:"महाराष्ट्रातील कृषी अनुदान घटकांची माहिती.",eligibility:"घटक, जमीन, पात्रता आणि निधी उपलब्धतेनुसार.",url:"https://mahadbt.maharashtra.gov.in/",tags:"शेती सिंचन अवजारे कृषी"},
+{id:"nsp",name:"National Scholarship Portal",cat:"student",state:"central",benefit:"पात्र विद्यार्थ्यांसाठी शिष्यवृत्ती योजनांची माहिती.",eligibility:"गुण, उत्पन्न, अभ्यासक्रम आणि योजनेनुसार.",url:"https://scholarships.gov.in/",tags:"विद्यार्थी शिष्यवृत्ती student"},
+{id:"mahadbt",name:"MahaDBT विद्यार्थी योजना",cat:"student",state:"Maharashtra",benefit:"महाराष्ट्रातील शिष्यवृत्ती आणि फी सहाय्य.",eligibility:"अभ्यासक्रम, गुण, प्रवर्ग आणि उत्पन्नानुसार.",url:"https://mahadbt.maharashtra.gov.in/",tags:"student scholarship विद्यार्थी"},
+{id:"nmms",name:"NMMS शिष्यवृत्ती माहिती",cat:"student",state:"central",benefit:"पात्र विद्यार्थ्यांसाठी शिष्यवृत्ती परीक्षेची माहिती.",eligibility:"इयत्ता, गुण, उत्पन्न व चालू अधिसूचना तपासा.",url:"https://www.education.gov.in/",tags:"NMMS school scholarship"},
+{id:"upsc",name:"UPSC भरती व परीक्षा",cat:"jobs",state:"central",benefit:"केंद्रीय परीक्षा आणि भरती जाहिराती.",eligibility:"पदनिहाय शिक्षण आणि वयोमर्यादा तपासा.",url:"https://upsc.gov.in/",tags:"नोकरी jobs परीक्षा"},
+{id:"ssc",name:"SSC भरती",cat:"jobs",state:"central",benefit:"केंद्रीय सरकारी पदांच्या भरतीची माहिती.",eligibility:"संबंधित जाहिरातीतील अटी तपासा.",url:"https://ssc.gov.in/",tags:"सरकारी नोकरी recruitment"},
+{id:"mpsc",name:"MPSC परीक्षा",cat:"jobs",state:"Maharashtra",benefit:"महाराष्ट्रातील स्पर्धा परीक्षा आणि भरती.",eligibility:"पद, वय आणि शिक्षणाचे निकष तपासा.",url:"https://mpsc.gov.in/",tags:"महाराष्ट्र नोकरी"},
+{id:"ncs",name:"National Career Service",cat:"jobs",state:"central",benefit:"रोजगार व करिअर मार्गदर्शन.",eligibility:"प्रत्येक नोकरीचे निकष वेगळे असतात.",url:"https://www.ncs.gov.in/",tags:"रोजगार career job"},
+{id:"women",name:"महिला व बालविकास योजना",cat:"women",state:"Maharashtra",benefit:"महिला आणि बालकांसाठी लागू योजनांची माहिती.",eligibility:"योजनेनुसार अटी बदलतात.",url:"https://womenchild.maharashtra.gov.in/",tags:"महिला women child"},
+{id:"mudra",name:"प्रधानमंत्री मुद्रा योजना",cat:"business",state:"central",benefit:"पात्र सूक्ष्म व्यवसायांसाठी कर्जविषयक माहिती.",eligibility:"बँकेचे निकष आणि चालू नियम तपासा.",url:"https://www.mudra.org.in/",tags:"व्यवसाय business loan"},
+{id:"startup",name:"Startup India",cat:"business",state:"central",benefit:"स्टार्टअप व उद्योजकता कार्यक्रमांची माहिती.",eligibility:"कार्यक्रमाचे नियम तपासा.",url:"https://www.startupindia.gov.in/",tags:"startup उद्योजक"},
+{id:"skill",name:"Skill India Digital",cat:"skills",state:"central",benefit:"कौशल्य प्रशिक्षण कार्यक्रमांची माहिती.",eligibility:"कोर्स आणि प्रशिक्षण केंद्रानुसार.",url:"https://www.skillindiadigital.gov.in/",tags:"कौशल्य training"},
+{id:"pmayg",name:"प्रधानमंत्री आवास योजना ग्रामीण",cat:"housing",state:"central",benefit:"ग्रामीण घरकुल सहाय्याची माहिती.",eligibility:"लाभार्थी यादी व चालू नियम तपासा.",url:"https://pmayg.nic.in/",tags:"घरकुल housing rural"},
+{id:"pmayu",name:"प्रधानमंत्री आवास योजना शहरी",cat:"housing",state:"central",benefit:"शहरी घरकुल कार्यक्रमांची माहिती.",eligibility:"उत्पन्न, घरमालकी आणि चालू घटक तपासा.",url:"https://pmay-urban.gov.in/",tags:"घरकुल urban housing"},
+{id:"health",name:"Ayushman Bharat / PM-JAY",cat:"health",state:"central",benefit:"पात्र लाभार्थ्यांसाठी आरोग्य संरक्षण माहिती.",eligibility:"लाभार्थी पात्रता आणि राज्यातील नियम तपासा.",url:"https://beneficiary.nha.gov.in/",tags:"आरोग्य health"},
+{id:"pension",name:"National Social Assistance Programme",cat:"senior",state:"central",benefit:"सामाजिक सहाय्य आणि पेन्शन कार्यक्रमांची माहिती.",eligibility:"वय, उत्पन्न आणि राज्याचे निकष तपासा.",url:"https://nsap.nic.in/",tags:"पेन्शन pension ज्येष्ठ"},
+{id:"disability",name:"UDID दिव्यांग प्रमाणपत्र",cat:"senior",state:"central",benefit:"दिव्यांग प्रमाणपत्र व UDID माहिती.",eligibility:"वैद्यकीय मूल्यांकन व अधिकृत नियम लागू.",url:"https://www.swavlambancard.gov.in/",tags:"दिव्यांग disability"},
+{id:"digilocker",name:"DigiLocker",cat:"documents",state:"central",benefit:"डिजिटल कागदपत्रे मिळवणे व साठवणे.",eligibility:"सेवेच्या नियमानुसार.",url:"https://www.digilocker.gov.in/",tags:"कागदपत्रे documents"},
+{id:"uidai",name:"UIDAI / Aadhaar",cat:"documents",state:"central",benefit:"आधारविषयक अधिकृत सेवा.",eligibility:"UIDAI च्या नियमांनुसार.",url:"https://uidai.gov.in/",tags:"आधार aadhaar"},
+{id:"aaple",name:"आपले सरकार",cat:"documents",state:"Maharashtra",benefit:"महाराष्ट्रातील विविध नागरिक सेवा.",eligibility:"सेवेनुसार नियम बदलतात.",url:"https://aaplesarkar.mahaonline.gov.in/",tags:"प्रमाणपत्र महाराष्ट्र"},
+{id:"myscheme",name:"myScheme — सरकारी योजना शोध",cat:"general",state:"central",benefit:"केंद्र व राज्य योजनांची माहिती शोधा.",eligibility:"प्रत्येक योजनेचे नियम स्वतंत्रपणे तपासा.",url:"https://www.myscheme.gov.in/",tags:"सर्व योजना scheme"},
+{id:"india",name:"India.gov.in",cat:"general",state:"central",benefit:"भारत सरकारच्या सेवा आणि माहितीचे राष्ट्रीय पोर्टल.",eligibility:"संबंधित सेवेच्या नियमानुसार.",url:"https://www.india.gov.in/",tags:"भारत सरकार"},
+{id:"maha",name:"महाराष्ट्र शासन पोर्टल",cat:"general",state:"Maharashtra",benefit:"महाराष्ट्र शासनाच्या विभागांची माहिती.",eligibility:"विभागानुसार नियम लागू.",url:"https://www.maharashtra.gov.in/",tags:"महाराष्ट्र शासन"}
+];
+
+const $=id=>document.getElementById(id);
+let favs=read("bs-favs",[]),tracks=read("bs-tracks",[]);
+function read(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}}
+function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function safe(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function card(s){return `<article class="card"><span class="tag">${safe(s.cat)}</span><h3>${safe(s.name)}</h3><p>${safe(s.benefit)}</p><p><b>पात्रता:</b> ${safe(s.eligibility)}</p><div class="actions"><button class="secondary" onclick="toggleFav('${s.id}')">${favs.includes(s.id)?"★ सेव्ह":"☆ Favourite"}</button><a class="btn" href="${safe(s.url)}" target="_blank" rel="noopener">अधिकृत लिंक ↗</a></div></article>`}
+function render(list=schemes){$("schemeGrid").innerHTML=list.length?list.map(card).join(""):"<div class='card'>योजना सापडली नाही. दुसरा शोध वापरा.</div>"}
+function filterList(){let q=$("query").value.toLowerCase().trim(),cat=$("category").value,state=$("state").value;let list=schemes.filter(s=>(!q||(s.name+" "+s.benefit+" "+s.tags).toLowerCase().includes(q))&&(cat==="all"||s.cat===cat)&&(state==="all"||s.state===state||s.state==="central"&&state==="Maharashtra"));render(list)}
+function choose(cat){$("category").value=cat;$("query").value="";filterList();$("schemes").scrollIntoView({behavior:"smooth"})}
+function searchGlobal(){$("query").value=$("globalSearch").value;$("category").value="all";filterList();$("schemes").scrollIntoView({behavior:"smooth"})}
+$("query").addEventListener("input",filterList);$("category").addEventListener("change",filterList);$("state").addEventListener("change",filterList);
+function findSchemes(){let role=$("role").value,state=$("findState").value;let list=schemes.filter(s=>(role==="general"||s.cat===role||s.cat==="general"||s.cat==="documents")&&(state==="all"||s.state==="central"||s.state==="Maharashtra"));$("finderResults").innerHTML="<p>खाली संबंधित विभागातील योजना आहेत. ही अंतिम पात्रता पडताळणी नाही.</p><div class='grid'>"+list.map(card).join("")+"</div>"}
+function toggleFav(id){if(favs.includes(id))favs=favs.filter(x=>x!==id);else favs.push(id);save("bs-favs",favs);render();renderFavs();if($("finderResults").innerHTML) findSchemes()}
+function renderFavs(){let list=schemes.filter(s=>favs.includes(s.id));$("favourites").innerHTML=list.length?list.map(s=>`<div class="listitem"><span>${safe(s.name)}</span><button onclick="toggleFav('${s.id}')">काढा</button></div>`).join(""):"<p class='small'>अजून Favourite योजना सेव्ह केलेली नाही.</p>"}
+function renderTracks(){$("trackerList").innerHTML=tracks.length?tracks.map((t,i)=>`<div class="listitem"><span><b>${safe(t.name)}</b><br><small>${safe(t.status)}</small></span><button onclick="deleteTrack(${i})">काढा</button></div>`).join(""):"<p class='small'>अजून नोंदी नाहीत.</p>"}
+function deleteTrack(i){tracks.splice(i,1);save("bs-tracks",tracks);renderTracks()}
+$("trackerForm").addEventListener("submit",e=>{e.preventDefault();tracks.push({name:$("trackName").value.trim(),status:$("trackStatus").value});save("bs-tracks",tracks);$("trackName").value="";renderTracks();notify("नोंद सेव्ह झाली.")});
+$("chatForm").addEventListener("submit",e=>{e.preventDefault();let q=$("question").value.toLowerCase(),a="योजनेची माहिती myScheme.gov.in वर शोधा. अधिकृत पात्रता आणि अंतिम तारीख तपासा.";if(/शेत|farmer|किसान/.test(q))a="शेतकरी योजनांसाठी pmkisan.gov.in, pmfby.gov.in आणि महाराष्ट्रासाठी MahaDBT तपासा.";else if(/विद्यार्थ|शिष्य|student|scholar/.test(q))a="शिष्यवृत्तीसाठी scholarships.gov.in आणि महाराष्ट्रासाठी MahaDBT तपासा.";else if(/नोकरी|job|भरती/.test(q))a="UPSC, SSC, MPSC आणि ncs.gov.in या अधिकृत वेबसाइट्स तपासा.";else if(/आधार|कागदपत्र|प्रमाणपत्र/.test(q))a="आधारासाठी uidai.gov.in, डिजिटल कागदपत्रांसाठी digilocker.gov.in आणि महाराष्ट्रासाठी आपले सरकार पोर्टल तपासा.";else if(/घरकुल|घर|housing/.test(q))a="ग्रामीण घरकुलासाठी pmayg.nic.in आणि शहरी घरकुलासाठी pmay-urban.gov.in तपासा.";else if(/महिला|women/.test(q))a="महिला योजनांसाठी संबंधित राज्य विभाग आणि myScheme.gov.in वर शोधा.";else if(/कर्ज|व्यवसाय|business/.test(q))a="व्यवसायासाठी mudra.org.in आणि startupindia.gov.in वर अधिकृत माहिती तपासा."; $("answer").textContent=a});
+function notify(msg){let el=$("message");el.textContent=msg;el.style.display="block";setTimeout(()=>el.style.display="none",2300)}
+$("language").addEventListener("change",e=>{let l=e.target.value;if(l==="en")notify("Some scheme details remain in Marathi in this version.");else if(l==="hi")notify("इस संस्करण में कुछ योजना विवरण मराठी में हैं।");else notify("भाषा पर्याय निवडला.")});
+$("year").textContent=new Date().getFullYear();
+render();renderFavs();renderTracks();
+</script>
+</body>
+</html>
